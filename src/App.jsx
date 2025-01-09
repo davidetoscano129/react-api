@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 
 function App() {
@@ -13,96 +14,78 @@ function App() {
 
   const [articles, setArticles] = useState([]);
 
-  // Gestore per i campi del form
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  // Fetch iniziale degli articoli al caricamento del componente
+  useEffect(() => {
+    axios.get('http://localhost:3000/api/posts')
+      .then((res) => setArticles(res.data))
+      .catch((err) => console.error('Errore nel fetch degli articoli:', err));
+  }, []);
 
-    // Gestione per checkbox e altri tipi di input
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
-
-  // Gestione dei tag (checkbox multipli)
-  const handleTagChange = (e) => {
-    const { value, checked } = e.target;
-
-    setFormData((prev) => {
-      const updatedTags = checked
-        ? [...prev.tags, value] // Aggiungi il tag
-        : prev.tags.filter((tag) => tag !== value); // Rimuovi il tag
-
-      return {
-        ...prev,
-        tags: updatedTags,
-      };
-    });
-  };
-
-  // Gestione invio del form
+  // Gestione invio del form (POST)
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Aggiungi l'articolo solo se il titolo è presente
     if (formData.title.trim() !== '') {
-      setArticles([...articles, formData]);
-      setFormData({
-        title: '',
-        image: '',
-        content: '',
-        category: 'Tech',
-        isPublished: false,
-        tags: [],
-      });
+      axios.post('http://localhost:3000/api/posts', formData)
+        .then((res) => {
+          setArticles((prev) => [...prev, res.data]); // Aggiorna lo stato con il nuovo articolo
+          setFormData({
+            title: '',
+            image: '',
+            content: '',
+            category: 'Tech',
+            isPublished: false,
+            tags: [],
+          });
+        })
+        .catch((err) => console.error('Errore nell\'aggiungere un articolo:', err));
     }
   };
 
-  // useEffect per mostrare un alert quando viene selezionato "Pubblica"
-  useEffect(() => {
-    if (formData.isPublished) {
-      alert('Hai selezionato Pubblica l’articolo!');
-    }
-  }, [formData.isPublished]);
+  // Gestione eliminazione articoli (DELETE)
+  const handleDelete = (index) => {
+    axios.delete(`http://localhost:3000/api/posts/${index}`)
+      .then(() => {
+        setArticles((prev) => prev.filter((_, i) => i !== index)); // Rimuove l'articolo eliminato dallo stato
+      })
+      .catch((err) => console.error('Errore nell\'eliminare l\'articolo:', err));
+  };
 
   return (
     <div className="App">
       <h1>React Blog Form Multifield</h1>
       <form onSubmit={handleSubmit}>
-        {/* Titolo */}
+        {/* Campi del form */}
         <input
           type="text"
           name="title"
           value={formData.title}
-          onChange={handleChange}
+          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           placeholder="Inserisci il titolo dell'articolo"
         />
         <br />
 
-        {/* Immagine */}
         <input
           type="text"
           name="image"
           value={formData.image}
-          onChange={handleChange}
+          onChange={(e) => setFormData({ ...formData, image: e.target.value })}
           placeholder="URL dell'immagine"
         />
         <br />
 
-        {/* Contenuto */}
         <textarea
           name="content"
           value={formData.content}
-          onChange={handleChange}
+          onChange={(e) => setFormData({ ...formData, content: e.target.value })}
           placeholder="Inserisci il contenuto dell'articolo"
         />
         <br />
 
-        {/* Categoria */}
         <select
           name="category"
           value={formData.category}
-          onChange={handleChange}
+          onChange={(e) => setFormData({ ...formData, category: e.target.value })}
         >
           <option value="Tech">Tech</option>
           <option value="Lifestyle">Lifestyle</option>
@@ -110,19 +93,17 @@ function App() {
         </select>
         <br />
 
-        {/* Pubblica */}
         <label>
           <input
             type="checkbox"
             name="isPublished"
             checked={formData.isPublished}
-            onChange={handleChange}
+            onChange={(e) => setFormData({ ...formData, isPublished: e.target.checked })}
           />
           Pubblica l'articolo
         </label>
         <br />
 
-        {/* Tags */}
         <fieldset>
           <legend>Tags:</legend>
           <label>
@@ -130,7 +111,15 @@ function App() {
               type="checkbox"
               value="React"
               checked={formData.tags.includes('React')}
-              onChange={handleTagChange}
+              onChange={(e) => {
+                const value = e.target.value;
+                setFormData((prev) => ({
+                  ...prev,
+                  tags: e.target.checked
+                    ? [...prev.tags, value]
+                    : prev.tags.filter((tag) => tag !== value),
+                }));
+              }}
             />
             React
           </label>
@@ -139,7 +128,15 @@ function App() {
               type="checkbox"
               value="JavaScript"
               checked={formData.tags.includes('JavaScript')}
-              onChange={handleTagChange}
+              onChange={(e) => {
+                const value = e.target.value;
+                setFormData((prev) => ({
+                  ...prev,
+                  tags: e.target.checked
+                    ? [...prev.tags, value]
+                    : prev.tags.filter((tag) => tag !== value),
+                }));
+              }}
             />
             JavaScript
           </label>
@@ -148,7 +145,15 @@ function App() {
               type="checkbox"
               value="CSS"
               checked={formData.tags.includes('CSS')}
-              onChange={handleTagChange}
+              onChange={(e) => {
+                const value = e.target.value;
+                setFormData((prev) => ({
+                  ...prev,
+                  tags: e.target.checked
+                    ? [...prev.tags, value]
+                    : prev.tags.filter((tag) => tag !== value),
+                }));
+              }}
             />
             CSS
           </label>
@@ -169,6 +174,7 @@ function App() {
             <p>Categoria: {article.category}</p>
             <p>Stato: {article.isPublished ? 'Pubblicato' : 'Bozza'}</p>
             <p>Tags: {article.tags.join(', ')}</p>
+            <button onClick={() => handleDelete(index)}>Elimina</button>
           </li>
         ))}
       </ul>
