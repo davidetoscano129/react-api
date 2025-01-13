@@ -16,7 +16,7 @@ function App() {
 
   // Fetch iniziale degli articoli al caricamento del componente
   useEffect(() => {
-    axios.get('http://localhost:3000/api/posts')
+    axios.get('http://localhost:3001/api/posts')
       .then((res) => setArticles(res.data))
       .catch((err) => console.error('Errore nel fetch degli articoli:', err));
   }, []);
@@ -26,7 +26,7 @@ function App() {
     e.preventDefault();
 
     if (formData.title.trim() !== '') {
-      axios.post('http://localhost:3000/api/posts', formData)
+      axios.post('http://localhost:3001/api/posts', formData)
         .then((res) => {
           setArticles((prev) => [...prev, res.data]); // Aggiorna lo stato con il nuovo articolo
           setFormData({
@@ -43,10 +43,10 @@ function App() {
   };
 
   // Gestione eliminazione articoli (DELETE)
-  const handleDelete = (index) => {
-    axios.delete(`http://localhost:3000/api/posts/${index}`)
+  const handleDelete = (id) => {
+    axios.delete(`http://localhost:3001/api/posts/${id}`)
       .then(() => {
-        setArticles((prev) => prev.filter((_, i) => i !== index)); // Rimuove l'articolo eliminato dallo stato
+        setArticles((prev) => prev.filter((article) => article.id !== id)); // Filtra per ID
       })
       .catch((err) => console.error('Errore nell\'eliminare l\'articolo:', err));
   };
@@ -160,7 +160,7 @@ function App() {
         </fieldset>
         <br />
 
-        <button type="submit">Aggiungi Articolo</button>
+        <button onClick={() => handleDelete(articles.id)}>Elimina</button>
       </form>
 
       {/* Lista articoli */}
@@ -174,7 +174,7 @@ function App() {
             <p>Categoria: {article.category}</p>
             <p>Stato: {article.isPublished ? 'Pubblicato' : 'Bozza'}</p>
             <p>Tags: {article.tags.join(', ')}</p>
-            <button onClick={() => handleDelete(index)}>Elimina</button>
+            <button onClick={() => handleDelete(article.id)}>Elimina</button>
           </li>
         ))}
       </ul>
