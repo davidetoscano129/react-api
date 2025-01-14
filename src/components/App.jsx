@@ -13,13 +13,14 @@ function App() {
     tags: [],
   });
 
+  const [filterTag, setFilterTag] = useState('');
   const [articles, setArticles] = useState([]);
 
   // Fetch iniziale degli articoli al caricamento del componente
   useEffect(() => {
     axios.get('http://localhost:3001/api/posts')
       .then((res) => {
-        console.log('Dati ricevuti:', res.data); // 👈 Controllo dei dati
+        console.log('Dati ricevuti:', res.data);
         if (Array.isArray(res.data)) {
           setArticles(res.data);
         } else {
@@ -171,14 +172,24 @@ function App() {
         <button onClick={() => handleDelete(articles.id)}>Elimina</button>
       </form>
 
+      <label>Filtra per Tag:</label>
+      <select value={filterTag} onChange={(e) => setFilterTag(e.target.value)}>
+        <option value="">Tutti</option>
+        <option value="React">React</option>
+        <option value="JavaScript">JavaScript</option>
+        <option value="CSS">CSS</option>
+      </select>
+
       {/* Lista articoli */}
       <h2>Articoli</h2>
       <ul>
-        {articles.map((article) => (
-          <li key={article.id}>
-            <PostCard article={article} handleDelete={handleDelete} />
-          </li>
-        ))}
+        {articles
+          .filter((article) => filterTag === '' || article.tags.includes(filterTag))
+          .map((article) => (
+            <li key={article.id}>
+              <PostCard article={article} handleDelete={handleDelete} />
+            </li>
+          ))}
       </ul>
     </div>
   );
