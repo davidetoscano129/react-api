@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import './App.css';
+import '../App.css';
+import PostCard from './PostCard';
 
 function App() {
   const [formData, setFormData] = useState({
@@ -17,7 +18,14 @@ function App() {
   // Fetch iniziale degli articoli al caricamento del componente
   useEffect(() => {
     axios.get('http://localhost:3001/api/posts')
-      .then((res) => setArticles(res.data))
+      .then((res) => {
+        console.log('Dati ricevuti:', res.data); // 👈 Controllo dei dati
+        if (Array.isArray(res.data)) {
+          setArticles(res.data);
+        } else {
+          console.error('La risposta non è un array:', res.data);
+        }
+      })
       .catch((err) => console.error('Errore nel fetch degli articoli:', err));
   }, []);
 
@@ -166,15 +174,9 @@ function App() {
       {/* Lista articoli */}
       <h2>Articoli</h2>
       <ul>
-        {articles.map((article, index) => (
-          <li key={index}>
-            <h3>{article.title}</h3>
-            <img src={article.image} alt={article.title} style={{ width: '200px' }} />
-            <p>{article.content}</p>
-            <p>Categoria: {article.category}</p>
-            <p>Stato: {article.isPublished ? 'Pubblicato' : 'Bozza'}</p>
-            <p>Tags: {article.tags.join(', ')}</p>
-            <button onClick={() => handleDelete(article.id)}>Elimina</button>
+        {articles.map((article) => (
+          <li key={article.id}>
+            <PostCard article={article} handleDelete={handleDelete} />
           </li>
         ))}
       </ul>

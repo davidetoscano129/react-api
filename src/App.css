@@ -1,141 +1,141 @@
- body {
-     font-family: Arial, sans-serif;
-     background-color: #f8f9fa;
-     margin: 0;
-     padding: 0;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     min-height: 100vh;
- }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
 
- .App {
-     background: #fff;
-     border-radius: 8px;
-     padding: 20px;
-     max-width: 600px;
-     width: 100%;
-     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-     text-align: center;
- }
+.App {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
 
- /* Header */
- h1 {
-     color: #333;
-     margin-bottom: 20px;
- }
+/* Header */
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
 
- /* Form */
- form {
-     display: flex;
-     flex-direction: column;
-     gap: 15px;
- }
+/* Form */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
 
- input[type="text"],
- textarea,
- select {
-     width: 100%;
-     padding: 10px;
-     border: 1px solid #ddd;
-     border-radius: 5px;
-     font-size: 16px;
- }
+input[type="text"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
 
- textarea {
-     resize: none;
-     height: 80px;
- }
+textarea {
+    resize: none;
+    height: 80px;
+}
 
- input[type="checkbox"] {
-     margin-right: 8px;
- }
+input[type="checkbox"] {
+    margin-right: 8px;
+}
 
- label {
-     font-size: 14px;
-     color: #555;
-     display: flex;
-     align-items: center;
-     gap: 5px;
- }
+label {
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
- fieldset {
-     border: 1px solid #ddd;
-     border-radius: 5px;
-     padding: 10px;
-     margin: 0;
- }
+fieldset {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0;
+}
 
- legend {
-     font-size: 14px;
-     font-weight: bold;
-     color: #333;
-     padding: 0 5px;
- }
+legend {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    padding: 0 5px;
+}
 
- /* Checkbox */
- fieldset label {
-     margin-right: 10px;
- }
+/* Checkbox */
+fieldset label {
+    margin-right: 10px;
+}
 
- input[type="checkbox"]:checked+label {
-     font-weight: bold;
- }
+input[type="checkbox"]:checked+label {
+    font-weight: bold;
+}
 
- /* Button */
- button[type="submit"] {
-     background-color: #007bff;
-     color: #fff;
-     border: none;
-     padding: 10px 15px;
-     font-size: 16px;
-     border-radius: 5px;
-     cursor: pointer;
-     transition: background-color 0.3s ease;
- }
+/* Button */
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
- button[type="submit"]:hover {
-     background-color: #0056b3;
- }
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
 
- /* Article list */
- h2 {
-     margin-top: 30px;
-     color: #333;
- }
+/* Article list */
+h2 {
+    margin-top: 30px;
+    color: #333;
+}
 
- ul {
-     list-style: none;
-     padding: 0;
- }
+ul {
+    list-style: none;
+    padding: 0;
+}
 
- li {
-     text-align: left;
-     background: #f9f9f9;
-     padding: 15px;
-     margin-bottom: 10px;
-     border: 1px solid #ddd;
-     border-radius: 5px;
- }
+li {
+    text-align: left;
+    background: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
 
- li img {
-     display: block;
-     margin: 10px 0;
-     max-width: 100%;
-     border-radius: 5px;
- }
+li img {
+    display: block;
+    margin: 10px 0;
+    max-width: 100%;
+    border-radius: 5px;
+}
 
- li h3 {
-     margin: 0 0 10px;
-     color: #007bff;
- }
+li h3 {
+    margin: 0 0 10px;
+    color: #007bff;
+}
 
- li p {
-     margin: 5px 0;
-     color: #555;
- }
+li p {
+    margin: 5px 0;
+    color: #555;
+}
 
- li p:last-child {
-     font-weight: bold;
-     color: #333;
- }
+li p:last-child {
+    font-weight: bold;
+    color: #333;
+}
